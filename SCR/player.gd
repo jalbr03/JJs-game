@@ -5,6 +5,7 @@ extends KinematicBody
 # var a = 2
 # var b = "text"
 signal knock_back
+signal self_id
 onready var cam = $gimble
 var velocity = Vector3.ZERO
 var move_h
@@ -22,6 +23,7 @@ var states_array = ["",""]
 var state = player_states.move
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	emit_signal("self_id",self)
 	states_array[player_states.move] = "move"
 	states_array[player_states.stomp] = "stomp"
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -64,6 +66,6 @@ func move():
 		state = player_states.stomp
 		velocity = Vector3.ZERO
 func stomp():
-	emit_signal("knock_back",200)
+	emit_signal("knock_back",200,12)
 	state = player_states.move
 	pass

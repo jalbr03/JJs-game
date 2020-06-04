@@ -4,7 +4,8 @@ extends KinematicBody
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
-onready var player = get_parent().get_parent().get_node("player")
+#onready var player = get_parent().get_parent().get_node("player")
+var player
 var knock_back_str = 0
 var velocity = Vector3.ZERO
 const UP = Vector3(0,-1,0)
