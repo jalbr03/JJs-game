@@ -25,7 +25,7 @@ func _ready():
 	states_array[player_states.move] = "move"
 	states_array[player_states.stomp] = "stomp"
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	OS.window_fullscreen = true
+	#OS.window_fullscreen = true
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -64,9 +64,6 @@ func move():
 		state = player_states.stomp
 		velocity = Vector3.ZERO
 func stomp():
-	emit_signal("knock_back",10)
+	emit_signal("knock_back",200)
+	state = player_states.move
 	pass
-
-
-func _on_player_knock_back():
-	pass # Replace with function body.
