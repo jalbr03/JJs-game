@@ -4,6 +4,8 @@ extends KinematicBody
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
+export var bullet_scene = preload("res://scenes/bullet.tscn")
+
 signal knock_back
 signal self_id
 onready var cam = $gimble
@@ -25,7 +27,7 @@ var state = player_states.move
 func _ready():
 	emit_signal("self_id",self)
 	states_array[player_states.move] = "move"
-	states_array[player_states.stomp] = "stomp"
+	states_array[player_states.stomp] = "scr_stomp"
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	#OS.window_fullscreen = true
 
@@ -45,6 +47,12 @@ func _unhandled_input(event):
 		rotation.y -= deg2rad(event.relative.x)*0.1
 		cam.rotation.x -= deg2rad(event.relative.y)*0.1
 		cam.rotation.x = clamp(cam.rotation.x,-1.57,1.57)
+	
+	#shoot
+	if event is InputEventMouseButton:
+		if event.button_index == BUTTON_LEFT and event.pressed:
+			scr_shoot()
+		
 
 func move():
 	var left = Input.is_key_pressed(KEY_A)
@@ -65,7 +73,19 @@ func move():
 	if(stomp):
 		state = player_states.stomp
 		velocity = Vector3.ZERO
-func stomp():
-	emit_signal("knock_back",200,12)
+	
+
+func scr_shoot():
+	var bullet = bullet_scene.instance()
+	get_parent().add_child(bullet)
+	
+	var bullet_pos = (global_transform.basis.z*-2)
+	bullet.type = 0
+	bullet.translation = translation+bullet_pos
+	bullet.rotation = rotation
+	#bullet_scene.instance()
+
+func scr_stomp():
+	emit_signal("knock_back",200,20,self)#str,range,id
 	state = player_states.move
 	pass

@@ -5,8 +5,11 @@ extends KinematicBody
 # var a = 2
 # var b = "text"
 #onready var player = get_parent().get_parent().get_node("player")
+
+
 var player
 var knock_back_str = 0
+var knock_back_id
 var velocity = Vector3.ZERO
 const UP = Vector3(0,-1,0)
 const SPEED = 5
@@ -47,7 +50,7 @@ func _process(delta):
 	call(states_array[state])
 	if(last_state != state):
 		alarm0 = -1
-		print("ah change!")
+		#print("ah change!")
 	last_state = state
 	
 	#print(state)
@@ -134,15 +137,12 @@ func scr_knock_back():
 		alarm0-=1
 	#end of alarm stuff
 	print(alarm0)
-	var player_pose = player.global_transform.origin
+	var knock_back_pos = knock_back_id.global_transform.origin
 	var self_pose = global_transform.origin
-	velocity.z = (self_pose.z - player_pose.z)#*knock_back_str
-	velocity.x = (self_pose.x - player_pose.x)#*knock_back_str
+	velocity.z = (self_pose.z - knock_back_pos.z)#*knock_back_str
+	velocity.x = (self_pose.x - knock_back_pos.x)#*knock_back_str
 	velocity = velocity.normalized()*knock_back_str
 	velocity.y = knock_back_str/10
-#	state = enemy_states.idle
-	#print(str(move_v)+"v_h"+str(move_h))
-	#direct_move()
 	
 
 
