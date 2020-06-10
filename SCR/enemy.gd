@@ -19,8 +19,8 @@ var fps = 0
 var alarm0 = -1
 export var seeing_range = 20
 
-var move_h = 0#(int(right)-int(left))
-var move_v = 1#(int(backward)-int(forward))
+var move_h = 0
+var move_v = 1
 var move = Vector2(move_h,move_v)
 
 enum enemy_states{
@@ -45,7 +45,8 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	fps = 30#Engine.get_frames_per_second();
+	fps = Engine.get_frames_per_second()
+	#print("fps "+str(Engine.get_frames_per_second()))
 	velocity.y -= 0.98
 	call(states_array[state])
 	if(last_state != state):
@@ -136,7 +137,7 @@ func scr_knock_back():
 	else:
 		alarm0-=1
 	#end of alarm stuff
-	print(alarm0)
+	#print(alarm0)
 	var knock_back_pos = knock_back_id.global_transform.origin
 	var self_pose = global_transform.origin
 	velocity.z = (self_pose.z - knock_back_pos.z)#*knock_back_str

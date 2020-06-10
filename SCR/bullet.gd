@@ -3,6 +3,8 @@ extends KinematicBody
 
 var velocity = Vector3.ZERO
 var time_from_birth = 0
+var life_span = 100
+var speed = 10
 
 enum bullet_types{
 	straight
@@ -23,8 +25,10 @@ func _process(delta):
 	move_and_slide(velocity)
 func scr_straight():
 	if(time_from_birth < 1):
-		var move = Vector2(0,-1)
-		move = move.normalized().rotated(-rotation.y)*10
-		print(move)
-		velocity = Vector3(move.x,0,move.y)
-	
+		var move = Vector3(0,0,-1)
+		#move = move.normalized().
+		#print(move)
+		#velocity = Vector3(move.x,move.y,move.z)
+		velocity = -get_transform().basis.z*speed
+	elif(time_from_birth >= life_span):
+		queue_free()

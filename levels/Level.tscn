@@ -17,13 +17,22 @@ albedo_color = Color( 0.835294, 0.835294, 0.835294, 1 )
 [node name="Level" type="Spatial"]
 
 [node name="player" parent="." instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4.89451, 2.67153, 6.9163 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4.89451, 4.61816, 6.9163 )
 
 [node name="Enemy_controller" type="Spatial" parent="."]
 script = ExtResource( 3 )
 
 [node name="enemy" parent="Enemy_controller" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4.35842, 3.24795, 2.33451 )
+
+[node name="enemy2" parent="Enemy_controller" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.170877, 3.24795, 17.1749 )
+
+[node name="enemy3" parent="Enemy_controller" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -22.0171, 3.24795, 14.3999 )
+
+[node name="enemy4" parent="Enemy_controller" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.10962, 3.24795, 2.33451 )
 
 [node name="objects" type="Spatial" parent="."]
 

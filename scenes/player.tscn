@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://SCR/player.gd" type="Script" id=1]
+[ext_resource path="res://SCR/Camera.gd" type="Script" id=2]
 
 [sub_resource type="CapsuleShape" id=1]
+height = 1.41409
 
 [sub_resource type="CapsuleMesh" id=2]
 
@@ -10,15 +12,19 @@
 script = ExtResource( 1 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0, 0 )
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -2, 0, 1, -8.74228e-08, 0, 0.419737, 0 )
 shape = SubResource( 1 )
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
-transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0, 0 )
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -2, 0, 1, -8.74228e-08, 0, 0, 0 )
 mesh = SubResource( 2 )
 material/0 = null
 
 [node name="gimble" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.16211, -0.0344296 )
 
 [node name="Camera" type="Camera" parent="gimble"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.70669, 7.47226 )
+near = 0.7
+script = ExtResource( 2 )
+[connection signal="camera_move_to" from="." to="gimble/Camera" method="_on_player_camera_move_to"]
+[connection signal="animation_fin" from="gimble/Camera" to="." method="_on_Camera_animation_fin"]
