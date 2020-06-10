@@ -79,7 +79,8 @@ func _unhandled_input(event):
 		#shoot
 		if event is InputEventMouseButton:
 			if event.button_index == BUTTON_LEFT and event.pressed:
-				state = player_states.fire_ball
+				if(state == player_states.move):
+					state = player_states.fire_ball
 		
 
 func move():
@@ -98,7 +99,7 @@ func move():
 	velocity.z = lerp(velocity.z,move.y,EXEL)
 	velocity.y += int(jump)*int(is_on_floor())*JUMP_HEIGHT
 	#attack stuff
-	if(stomp && stomp_cooldown<=0):
+	if(stomp && stomp_cooldown<=0 && state == player_states.move):
 		state = player_states.stomp
 		velocity = Vector3.ZERO #stop all velocity
 	
@@ -109,11 +110,11 @@ func scr_fire_ball():
 		alarm0 = fps*3
 		velocity.y = 40
 		#cam_lock = true
-		gimble.rotation.x = 0
+		#gimble.rotation.x = 0
 		var target = translation
 		#target.y+=20
-		var off_set = Vector3(0,20,0)
-		cam_move_to = Vector3(0,8,20)
+		#var off_set = Vector3(0,20,0)
+		cam_move_to = Vector3(0,5,20)
 		emit_signal("camera_move_to",cam_move_to,"player",Vector3.ZERO)#x,y,z,look at
 		#stomp_cooldown = 90
 	elif(alarm0 <= 0): #end of alarm
@@ -136,7 +137,7 @@ func scr_stomp():
 	if(alarm0 == -1): #start of alarm
 		alarm0 = fps*1.5
 		cam_lock = true
-		#gimble.rotation.x = 0
+		gimble.rotation.x = 0
 		var target = self.translation
 		#target.y+=5
 		var off_set = Vector3(0,5,0)
@@ -148,7 +149,7 @@ func scr_stomp():
 		cam_lock = false
 		cam_move_to = Vector3.ZERO
 		emit_signal("camera_move_to",cam_move_to,"noone",Vector3.ZERO)#x,y,z,look at
-#			cam.rotation = Vector3.ZERO
+#		cam.rotation = Vector3.ZERO
 		state = player_states.move
 	else:
 		alarm0-=1

@@ -19,7 +19,7 @@ func _process(delta):
 		var dist_to_pose = translation.distance_to(pose)
 		if(dist_to_pose > 0.1):
 			translation = lerp(translation,pose,0.15)
-			if(typeof(look_at_target) != type_string && dist_to_pose < max_dist-3):
+			if(typeof(look_at_target) != type_string && dist_to_pose < max_dist):
 				look_at(look_at_target+target_off_set,Vector3(0,1,0))
 		else:#(animate):
 			animate = false
