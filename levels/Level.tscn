@@ -234,5 +234,5 @@ shape = SubResource( 2 )
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( 1, 0, 0, 0, 0.349602, 0.936898, 0, -0.936898, 0.349602, -14.3585, 30.1651, 0 )
 light_energy = 0.3
-[connection signal="knock_back" from="player" to="Enemy_controller" method="_on_player_knock_back"]
+[connection signal="impulse" from="player" to="Enemy_controller" method="_on_player_impulse"]
 [connection signal="self_id" from="player" to="Enemy_controller" method="_on_player_self_id"]

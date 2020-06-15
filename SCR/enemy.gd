@@ -8,8 +8,12 @@ extends KinematicBody
 
 
 var player
-var knock_back_str = 0
-var knock_back_id
+
+var impulse_str = 0
+var impulse_id
+var impulse_time
+var impulse_dist
+
 var velocity = Vector3.ZERO
 const UP = Vector3(0,-1,0)
 const SPEED = 5
@@ -17,6 +21,7 @@ const JUMP_HEIGHT = 100
 const EXEL = 0.02
 var fps = 0
 var alarm0 = -1
+var global_delta
 export var seeing_range = 20
 
 var move_h = 0
@@ -28,7 +33,7 @@ enum enemy_states{
 	roam,
 	fight,
 	hide,
-	knock_back
+	impulse
 }
 var states_array = ["","","","",""]
 var state = enemy_states.roam
@@ -40,11 +45,12 @@ func _ready():
 	states_array[enemy_states.roam] = "scr_roam"
 	states_array[enemy_states.fight] = "scr_fight"
 	states_array[enemy_states.hide] = "scr_hide"
-	states_array[enemy_states.knock_back] = "scr_knock_back"
+	states_array[enemy_states.impulse] = "scr_impulse"
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	global_delta = delta
 	fps = Engine.get_frames_per_second()
 	#print("fps "+str(Engine.get_frames_per_second()))
 	velocity.y -= 0.98
@@ -56,8 +62,11 @@ func _process(delta):
 	
 	#print(state)
 	#knock back
-	if(knock_back_str != 0):
-		state = enemy_states.knock_back
+	if(impulse_str != 0):
+		if (str(impulse_id)!="[Deleted Object]" && str(impulse_id) != "0"):
+			var dist_to_imp = translation.distance_to(impulse_id.translation)
+			if(dist_to_imp<impulse_dist):
+				state = enemy_states.impulse
 	else:
 		#see the player
 		var a = self.get_transform().basis.z # Enemy's forward vector
@@ -85,7 +94,7 @@ func scr_idle():
 	move_h = 0
 	move_v = 0
 	if(alarm0 == -1): #start of alarm
-		alarm0 = fps*rand_range(2,4)
+		alarm0 = rand_range(2,4)
 	elif(alarm0 <= 0): #end of alarm
 		alarm0 = -1
 		state = enemy_states.roam
@@ -98,14 +107,14 @@ func scr_idle():
 func scr_roam():
 	#alarm stuff
 	if(alarm0 == -1): #start of alarm
-		alarm0 = fps*rand_range(3,5)
+		alarm0 = rand_range(3,5)
 		var rand_dir = rand_range(0,359)
 		rotate_y(rand_dir)
 	elif(alarm0 <= 0): #end of alarm
 		alarm0 = -1
 		state = enemy_states.idle
 	else:
-		alarm0-=1
+		alarm0-=1*global_delta
 	#end of alarm stuff
 	
 	move_v = 1 #forward
@@ -126,34 +135,32 @@ func scr_fight():
 func scr_hide():
 	pass
 
-func scr_knock_back():
+func scr_impulse():
+	#print(alarm0)
 	#alarm stuff
 	if(alarm0 == -1): #start of alarm
-		alarm0 = fps*0.2
+		alarm0 = impulse_time
+		#wr = weakref(impulse_id)
 	elif(alarm0 <= 0): #end of alarm
 		alarm0 = -1
-		knock_back_str = 0
+		impulse_str = 0
 		state = enemy_states.idle
+		impulse_id = 0
+		impulse_time = 0
 	else:
-		alarm0-=1
+		alarm0-=1*global_delta
 	#end of alarm stuff
-	#print(alarm0)
-	var knock_back_pos = knock_back_id.global_transform.origin
-	var self_pose = global_transform.origin
-	velocity.z = (self_pose.z - knock_back_pos.z)#*knock_back_str
-	velocity.x = (self_pose.x - knock_back_pos.x)#*knock_back_str
-	velocity = velocity.normalized()*knock_back_str
-	velocity.y = knock_back_str/10
-	
-
-
-
-
-
-
-
-
-
+	print(impulse_id)
+	if (str(impulse_id)!="[Deleted Object]" && str(impulse_id) != "0"):
+		var impulse_pos = impulse_id.global_transform.origin
+		var self_pose = global_transform.origin
+		velocity.z = (self_pose.z - impulse_pos.z)#*knock_back_str
+		velocity.x = (self_pose.x - impulse_pos.x)#*knock_back_str
+		velocity = velocity.normalized()*impulse_str
+		velocity.y = impulse_str/10
+	else:
+		alarm0 = 0
+		
 
 
 
