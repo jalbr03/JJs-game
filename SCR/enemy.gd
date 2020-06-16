@@ -150,7 +150,6 @@ func scr_impulse():
 	else:
 		alarm0-=1*global_delta
 	#end of alarm stuff
-	print(impulse_id)
 	if (str(impulse_id)!="[Deleted Object]" && str(impulse_id) != "0"):
 		var impulse_pos = impulse_id.global_transform.origin
 		var self_pose = global_transform.origin

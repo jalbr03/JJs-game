@@ -26,7 +26,6 @@ func _process(delta):
 			emit_signal("animation_fin",look_at_target)
 			if(typeof(look_at_target) == type_string):
 				rotation = Vector3.ZERO
-			print("DONE_")
 	
 
 func _on_player_camera_move_to(go_to_pose,look_target,off_set):

@@ -38,26 +38,20 @@ func scr_ability_passive():
 	player.player_lock = false
 
 func scr_ability_1():
-	#fire Ball
+	#ice from floor
 	#alarm stuff
 	if(alarm0 == -1): #start of alarm
 		alarm0 = 2
-		player.velocity.y = 40
 		cam_move_to = Vector3(0,5,20)
 		player.camera_move(cam_move_to,"player",Vector3.ZERO)#x,y,z,look at
-		#stomp_cooldown = 90
 	elif(alarm0 <= 0): #end of alarm
 		alarm0 = -1
-		player.cam_lock = false
+		#player.cam_lock = false
 		cam_move_to = Vector3.ZERO
 		player.camera_move(cam_move_to,"noone",Vector3.ZERO)#x,y,z,look at
-#		cam.rotation = Vector3.ZERO
 		player.state = player_states.passive
 	else:
-		if(player.velocity.y <= 0):
-			player.velocity.y = 0
 		alarm0-=1*global_delta
-		
 	#end of alarm stuff
 
 func scr_ability_2():
@@ -68,7 +62,6 @@ func scr_ability_2():
 		
 		player.cam_lock = true
 		player.player_lock = true
-		player.velocity = Vector3.ZERO #stop all velocity
 		gimble.rotation.x = 0
 		
 		var target = player.translation
@@ -89,9 +82,9 @@ func scr_ability_2():
 		alarm0-=1*global_delta
 	#end of alarm stuff
 	if(player.ability_2_cool_down <= 0):
-		if(alarm0 <= 1.6):#animation_player.current_animation_length-0.3):
+		if(player.animation_player.current_animation_position >= 1.3):#animation_player.current_animation_length-0.3):
 			spawn_blast()
-			player.ability_2_cool_down = 120
+			player.ability_2_cool_down = 90
 
 #spawn things
 func spawn_bullet(size,life):
@@ -122,8 +115,5 @@ func cam_end_animation(camera_target):
 	
 	if(state == player_states.ability_1):
 		if(str(camera_target) == "player"):
-			var fireball_life = 3.5
-			var bullet_size = Vector3(2,2,2)
-			var bullet = spawn_bullet(bullet_size,fireball_life)
-			player.impulse(-10,bullet_size.x*10,fireball_life,bullet)
+			pass
 			

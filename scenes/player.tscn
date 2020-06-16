@@ -1,16 +1,17 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://SCR/player/player.gd" type="Script" id=1]
 [ext_resource path="res://SCR/player/Camera.gd" type="Script" id=2]
-[ext_resource path="res://3d_models/space_marine/animations/SpaceMarine_idle.tres" type="Animation" id=3]
-[ext_resource path="res://3d_models/space_marine/animations/space_marine_run.tres" type="Animation" id=4]
-[ext_resource path="res://3d_models/space_marine/animations/space_marine_push.tres" type="Animation" id=5]
+[ext_resource path="res://3d_models/space_marine/animations/SpaceMarine_shoot.tres" type="Animation" id=3]
+[ext_resource path="res://3d_models/space_marine/animations/SpaceMarine_smash.tres" type="Animation" id=4]
+[ext_resource path="res://3d_models/space_marine/animations/space_marine_run.tres" type="Animation" id=5]
 [ext_resource path="res://3d_models/space_marine/animations/SpaceMarine_walk.tres" type="Animation" id=6]
 [ext_resource path="res://material/VanguardBodyMat.material" type="Material" id=7]
 [ext_resource path="res://material/Vanguard_VisorMat.material" type="Material" id=8]
-[ext_resource path="res://3d_models/space_marine/animations/SpaceMarine_shoot.tres" type="Animation" id=9]
-[ext_resource path="res://3d_models/space_marine/animations/SpaceMarine_gun.tres" type="Animation" id=10]
-[ext_resource path="res://3d_models/space_marine/animations/SpaceMarine_smash.tres" type="Animation" id=11]
+[ext_resource path="res://3d_models/space_marine/animations/space_marine_push.tres" type="Animation" id=9]
+[ext_resource path="res://3d_models/space_marine/animations/SpaceMarine_fly.tres" type="Animation" id=10]
+[ext_resource path="res://3d_models/space_marine/animations/SpaceMarine_idle.tres" type="Animation" id=11]
+[ext_resource path="res://3d_models/space_marine/animations/SpaceMarine_gun.tres" type="Animation" id=12]
 
 [sub_resource type="ArrayMesh" id=1]
 resource_name = "vanguard_Mesh"
@@ -56,49 +57,58 @@ filters = [ "Armature/Skeleton:Hips", "Armature/Skeleton:LeftFoot", "Armature/Sk
 
 [sub_resource type="AnimationNodeBlend2" id=6]
 
+[sub_resource type="AnimationNodeTimeScale" id=7]
+
 [sub_resource type="AnimationNodeAnimation" id=8]
 animation = "SpaceMarine_idle"
 
-[sub_resource type="AnimationNodeOneShot" id=7]
-
-[sub_resource type="AnimationNodeAnimation" id=9]
-animation = "space_marine_run"
+[sub_resource type="AnimationNodeOneShot" id=9]
 
 [sub_resource type="AnimationNodeAnimation" id=10]
-animation = "SpaceMarine_smash"
-
-[sub_resource type="AnimationNodeTimeScale" id=14]
+animation = "space_marine_run"
 
 [sub_resource type="AnimationNodeAnimation" id=11]
-animation = "SpaceMarine_gun"
+animation = "SpaceMarine_smash"
 
 [sub_resource type="AnimationNodeAnimation" id=12]
+animation = "SpaceMarine_smash"
+
+[sub_resource type="AnimationNodeTimeScale" id=13]
+
+[sub_resource type="AnimationNodeAnimation" id=14]
+animation = "SpaceMarine_gun"
+
+[sub_resource type="AnimationNodeAnimation" id=15]
 animation = "SpaceMarine_walk"
 
-[sub_resource type="AnimationNodeBlendTree" id=13]
-graph_offset = Vector2( 141, 365 )
+[sub_resource type="AnimationNodeBlendTree" id=16]
+graph_offset = Vector2( 232, 158 )
 nodes/Add_Legs_Arms/node = SubResource( 4 )
 nodes/Add_Legs_Arms/position = Vector2( 300, 240 )
 nodes/Blend_Idle_Move/node = SubResource( 5 )
 nodes/Blend_Idle_Move/position = Vector2( 520, 160 )
 nodes/Blend_Walk_Run/node = SubResource( 6 )
 nodes/Blend_Walk_Run/position = Vector2( 60, 360 )
+nodes/TimeScale/node = SubResource( 7 )
+nodes/TimeScale/position = Vector2( 620, 520 )
 nodes/idle/node = SubResource( 8 )
 nodes/idle/position = Vector2( 280, 100 )
-nodes/one_shot_ability/node = SubResource( 7 )
+nodes/one_shot_ability/node = SubResource( 9 )
 nodes/one_shot_ability/position = Vector2( 840, 220 )
 nodes/output/position = Vector2( 1060, 300 )
-nodes/run/node = SubResource( 9 )
+nodes/run/node = SubResource( 10 )
 nodes/run/position = Vector2( -200, 460 )
-nodes/smash/node = SubResource( 10 )
+nodes/samash_attack_point/node = SubResource( 11 )
+nodes/samash_attack_point/position = Vector2( 340, 580 )
+nodes/smash/node = SubResource( 12 )
 nodes/smash/position = Vector2( 340, 480 )
-nodes/smash_pause/node = SubResource( 14 )
+nodes/smash_pause/node = SubResource( 13 )
 nodes/smash_pause/position = Vector2( 620, 400 )
-nodes/upper_body/node = SubResource( 11 )
+nodes/upper_body/node = SubResource( 14 )
 nodes/upper_body/position = Vector2( 20, 200 )
-nodes/walk/node = SubResource( 12 )
+nodes/walk/node = SubResource( 15 )
 nodes/walk/position = Vector2( -200, 340 )
-node_connections = [ "output", 0, "one_shot_ability", "smash_pause", 0, "smash", "Blend_Idle_Move", 0, "idle", "Blend_Idle_Move", 1, "Add_Legs_Arms", "Add_Legs_Arms", 0, "upper_body", "Add_Legs_Arms", 1, "Blend_Walk_Run", "Blend_Walk_Run", 0, "walk", "Blend_Walk_Run", 1, "run", "one_shot_ability", 0, "Blend_Idle_Move", "one_shot_ability", 1, "smash_pause" ]
+node_connections = [ "output", 0, "one_shot_ability", "Blend_Idle_Move", 0, "idle", "Blend_Idle_Move", 1, "Add_Legs_Arms", "smash_pause", 0, "smash", "TimeScale", 0, "samash_attack_point", "one_shot_ability", 0, "Blend_Idle_Move", "one_shot_ability", 1, "smash_pause", "Add_Legs_Arms", 0, "upper_body", "Add_Legs_Arms", 1, "Blend_Walk_Run", "Blend_Walk_Run", 0, "walk", "Blend_Walk_Run", 1, "run" ]
 
 [node name="player" type="KinematicBody"]
 script = ExtResource( 1 )
@@ -454,22 +464,23 @@ transform = Transform( 2, 0, 0, 0, -0.496399, -3.38844, 0, 1.93742, -0.868175, 0
 shape = SubResource( 3 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-autoplay = "SpaceMarine_idle"
-anims/SpaceMarine_gun = ExtResource( 10 )
-anims/SpaceMarine_idle = ExtResource( 3 )
-anims/SpaceMarine_shoot = ExtResource( 9 )
-anims/SpaceMarine_smash = ExtResource( 11 )
+anims/SpaceMarine_fly = ExtResource( 10 )
+anims/SpaceMarine_gun = ExtResource( 12 )
+anims/SpaceMarine_idle = ExtResource( 11 )
+anims/SpaceMarine_shoot = ExtResource( 3 )
+anims/SpaceMarine_smash = ExtResource( 4 )
 anims/SpaceMarine_walk = ExtResource( 6 )
-anims/space_marine_push = ExtResource( 5 )
-anims/space_marine_run = ExtResource( 4 )
+anims/space_marine_push = ExtResource( 9 )
+anims/space_marine_run = ExtResource( 5 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 13 )
+tree_root = SubResource( 16 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
 parameters/Add_Legs_Arms/add_amount = 1.0
 parameters/Blend_Idle_Move/blend_amount = 1.0
 parameters/Blend_Walk_Run/blend_amount = 0.0
+parameters/TimeScale/scale = 0.0
 parameters/one_shot_ability/active = false
 parameters/smash_pause/scale = 1.0
 [connection signal="camera_move_to" from="." to="gimble/Camera" method="_on_player_camera_move_to"]
