@@ -29,6 +29,8 @@ func ready():
 
 func process(delta):
 	global_delta = delta
+	if(player.ability_1_cool_down > 0):
+		player.ability_1_cool_down -= 1
 	if(player.ability_2_cool_down > 0):
 		player.ability_2_cool_down -= 1
 	call(states_array[state])
@@ -41,22 +43,33 @@ func scr_ability_1():
 	#fire Ball
 	#alarm stuff
 	if(alarm0 == -1): #start of alarm
-		alarm0 = 2
+		alarm0 = 3
 		player.velocity.y = 40
 		cam_move_to = Vector3(0,5,20)
 		player.camera_move(cam_move_to,"player",Vector3.ZERO)#x,y,z,look at
+		
+		animations.set("parameters/one_shot_ability/active",true)
+		animations.set("parameters/Blend_smash_punch/blend_amount",1)
 		#stomp_cooldown = 90
 	elif(alarm0 <= 0): #end of alarm
 		alarm0 = -1
 		player.cam_lock = false
 		cam_move_to = Vector3.ZERO
 		player.camera_move(cam_move_to,"noone",Vector3.ZERO)#x,y,z,look at
-#		cam.rotation = Vector3.ZERO
+		animations.set("parameters/Blend_fly_general/blend_amount",1)
 		player.state = player_states.passive
 	else:
 		if(player.velocity.y <= 0):
 			player.velocity.y = 0
+			animations.set("parameters/Blend_fly_general/blend_amount",0)
 		alarm0-=1*global_delta
+	if(player.ability_1_cool_down <= 0):
+		if(alarm0 <= 1.8):#animation_player.current_animation_length-0.3):
+			var fireball_life = 3.5
+			var bullet_size = Vector3(2,2,2)
+			var bullet = spawn_bullet(bullet_size,fireball_life)
+			player.impulse(-10,bullet_size.x*10,fireball_life,bullet)
+			player.ability_1_cool_down = 120
 		
 	#end of alarm stuff
 
@@ -77,6 +90,7 @@ func scr_ability_2():
 		player.camera_move(cam_move_to,target,off_set)#xyz,look at,off set
 		
 		animations.set("parameters/one_shot_ability/active",true)
+		animations.set("parameters/Blend_smash_punch/blend_amount",0)
 	elif(alarm0 <= 0): #end of alarm
 		alarm0 = -1
 		player.cam_lock = false
@@ -122,8 +136,9 @@ func cam_end_animation(camera_target):
 	
 	if(state == player_states.ability_1):
 		if(str(camera_target) == "player"):
-			var fireball_life = 3.5
-			var bullet_size = Vector3(2,2,2)
-			var bullet = spawn_bullet(bullet_size,fireball_life)
-			player.impulse(-10,bullet_size.x*10,fireball_life,bullet)
+#			var fireball_life = 3.5
+#			var bullet_size = Vector3(2,2,2)
+#			var bullet = spawn_bullet(bullet_size,fireball_life)
+#			player.impulse(-10,bullet_size.x*10,fireball_life,bullet)
+			pass
 			

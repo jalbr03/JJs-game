@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://SCR/player/player.gd" type="Script" id=1]
 [ext_resource path="res://SCR/player/Camera.gd" type="Script" id=2]
@@ -58,6 +58,20 @@ filters = [ "Armature/Skeleton:Hips", "Armature/Skeleton:LeftFoot", "Armature/Sk
 
 [sub_resource type="AnimationNodeBlend2" id=6]
 
+[sub_resource type="AnimationNodeBlend2" id=15]
+
+[sub_resource type="AnimationNodeBlend2" id=19]
+
+[sub_resource type="AnimationNodeBlend2" id=16]
+filter_enabled = true
+filters = [ "Armature/Skeleton:LeftFoot", "Armature/Skeleton:LeftHand", "Armature/Skeleton:LeftHandIndex1", "Armature/Skeleton:LeftHandIndex2", "Armature/Skeleton:LeftHandIndex3", "Armature/Skeleton:LeftHandMiddle1", "Armature/Skeleton:LeftHandMiddle2", "Armature/Skeleton:LeftHandMiddle3", "Armature/Skeleton:LeftHandPinky1", "Armature/Skeleton:LeftHandPinky2", "Armature/Skeleton:LeftHandPinky3", "Armature/Skeleton:LeftHandRing1", "Armature/Skeleton:LeftHandRing2", "Armature/Skeleton:LeftHandRing3", "Armature/Skeleton:LeftHandThumb1", "Armature/Skeleton:LeftHandThumb2", "Armature/Skeleton:LeftHandThumb3", "Armature/Skeleton:LeftLeg", "Armature/Skeleton:LeftShoulder", "Armature/Skeleton:LeftToeBase", "Armature/Skeleton:LeftUpLeg", "Armature/Skeleton:RightFoot", "Armature/Skeleton:RightHand", "Armature/Skeleton:RightHandIndex1", "Armature/Skeleton:RightHandIndex2", "Armature/Skeleton:RightHandIndex3", "Armature/Skeleton:RightHandMiddle1", "Armature/Skeleton:RightHandMiddle2", "Armature/Skeleton:RightHandMiddle3", "Armature/Skeleton:RightHandPinky1", "Armature/Skeleton:RightHandPinky2", "Armature/Skeleton:RightHandPinky3", "Armature/Skeleton:RightHandRing1", "Armature/Skeleton:RightHandRing2", "Armature/Skeleton:RightHandRing3", "Armature/Skeleton:RightHandThumb1", "Armature/Skeleton:RightHandThumb2", "Armature/Skeleton:RightHandThumb3", "Armature/Skeleton:RightLeg", "Armature/Skeleton:RightShoulder", "Armature/Skeleton:RightToeBase", "Armature/Skeleton:RightUpLeg" ]
+
+[sub_resource type="AnimationNodeAnimation" id=17]
+animation = "SpaceMarine_fly"
+
+[sub_resource type="AnimationNodeAnimation" id=18]
+animation = "SpaceMarine_idle"
+
 [sub_resource type="AnimationNodeAnimation" id=7]
 animation = "SpaceMarine_idle"
 
@@ -79,31 +93,42 @@ animation = "SpaceMarine_gun"
 animation = "SpaceMarine_walk"
 
 [sub_resource type="AnimationNodeBlendTree" id=14]
-graph_offset = Vector2( 62, 314 )
+graph_offset = Vector2( 51, 369.75 )
 nodes/Add_Legs_Arms/node = SubResource( 4 )
-nodes/Add_Legs_Arms/position = Vector2( 300, 240 )
+nodes/Add_Legs_Arms/position = Vector2( 100, 240 )
 nodes/Blend_Idle_Move/node = SubResource( 5 )
-nodes/Blend_Idle_Move/position = Vector2( 520, 160 )
+nodes/Blend_Idle_Move/position = Vector2( 320, 160 )
 nodes/Blend_Walk_Run/node = SubResource( 6 )
-nodes/Blend_Walk_Run/position = Vector2( 60, 360 )
+nodes/Blend_Walk_Run/position = Vector2( -140, 360 )
+nodes/Blend_fly_general/node = SubResource( 15 )
+nodes/Blend_fly_general/position = Vector2( 580, 40 )
+nodes/Blend_smash_punch/node = SubResource( 19 )
+nodes/Blend_smash_punch/position = Vector2( 580, 380 )
+nodes/fly/node = SubResource( 16 )
+nodes/fly/position = Vector2( 340, -140 )
+nodes/fly_1/node = SubResource( 17 )
+nodes/fly_1/position = Vector2( 80, -40 )
+nodes/fly_2/node = SubResource( 18 )
+nodes/fly_2/position = Vector2( 80, -180 )
 nodes/idle/node = SubResource( 7 )
-nodes/idle/position = Vector2( 280, 100 )
+nodes/idle/position = Vector2( 80, 100 )
 nodes/one_shot_ability/node = SubResource( 8 )
 nodes/one_shot_ability/position = Vector2( 840, 220 )
 nodes/output/position = Vector2( 1060, 300 )
 nodes/punch/node = SubResource( 9 )
-nodes/punch/position = Vector2( 340, 580 )
+nodes/punch/position = Vector2( 300, 520 )
 nodes/run/node = SubResource( 10 )
-nodes/run/position = Vector2( -200, 460 )
+nodes/run/position = Vector2( -400, 460 )
 nodes/smash/node = SubResource( 11 )
-nodes/smash/position = Vector2( 340, 480 )
+nodes/smash/position = Vector2( 300, 400 )
 nodes/upper_body/node = SubResource( 12 )
-nodes/upper_body/position = Vector2( 20, 200 )
+nodes/upper_body/position = Vector2( -180, 200 )
 nodes/walk/node = SubResource( 13 )
-nodes/walk/position = Vector2( -200, 340 )
-node_connections = [ "output", 0, "one_shot_ability", "Add_Legs_Arms", 0, "upper_body", "Add_Legs_Arms", 1, "Blend_Walk_Run", "Blend_Idle_Move", 0, "idle", "Blend_Idle_Move", 1, "Add_Legs_Arms", "Blend_Walk_Run", 0, "walk", "Blend_Walk_Run", 1, "run", "one_shot_ability", 0, "Blend_Idle_Move", "one_shot_ability", 1, "smash" ]
+nodes/walk/position = Vector2( -400, 340 )
+node_connections = [ "output", 0, "one_shot_ability", "Add_Legs_Arms", 0, "upper_body", "Add_Legs_Arms", 1, "Blend_Walk_Run", "Blend_Idle_Move", 0, "idle", "Blend_Idle_Move", 1, "Add_Legs_Arms", "Blend_Walk_Run", 0, "walk", "Blend_Walk_Run", 1, "run", "one_shot_ability", 0, "Blend_fly_general", "one_shot_ability", 1, "Blend_smash_punch", "fly", 0, "fly_2", "fly", 1, "fly_1", "Blend_fly_general", 0, "fly", "Blend_fly_general", 1, "Blend_Idle_Move", "Blend_smash_punch", 0, "smash", "Blend_smash_punch", 1, "punch" ]
 
 [node name="player" type="KinematicBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.00706387, 0 )
 script = ExtResource( 1 )
 
 [node name="gimble" type="Spatial" parent="."]
@@ -453,7 +478,7 @@ mesh = SubResource( 2 )
 material/0 = null
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
-transform = Transform( 2, 0, 0, 0, -0.496399, -3.38844, 0, 1.93742, -0.868175, 0, 4.24988, 0 )
+transform = Transform( 2, 0, 0, 0, -3.25842e-07, -3.49789, 0, 2, -5.69879e-07, 0, 4.24988, 0 )
 shape = SubResource( 3 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -474,6 +499,9 @@ active = true
 parameters/Add_Legs_Arms/add_amount = 1.0
 parameters/Blend_Idle_Move/blend_amount = 1.0
 parameters/Blend_Walk_Run/blend_amount = 0.0
+parameters/Blend_fly_general/blend_amount = 1.0
+parameters/Blend_smash_punch/blend_amount = 0
+parameters/fly/blend_amount = 1.0
 parameters/one_shot_ability/active = false
 [connection signal="camera_move_to" from="." to="gimble/Camera" method="_on_player_camera_move_to"]
 [connection signal="animation_fin" from="gimble/Camera" to="." method="_on_Camera_animation_fin"]
